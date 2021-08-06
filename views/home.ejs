@@ -1,7 +1,9 @@
 <%- include("partials/header.ejs") -%>
 
-<h1>Home</h1>
-
-<p><%= homeStartingContent %></p>
-
+<div style="padding: 2rem 20rem">
+  <% blogs.forEach(function(blog){ %>
+  <h1><%= blog.title %></h1>
+  <p><%= blog.body %></p>
+  <% }); %>
+</div>
 <%- include("partials/footer.ejs") -%>
