@@ -26,8 +26,8 @@ mongoose.connect("mongodb://localhost:27017/blogsDB", {
 });
 
 const blogSchema = mongoose.Schema({
-  title : String,
-  body : String
+  title: String,
+  body: String,
 });
 
 const Blog = mongoose.model("Blog", blogSchema);
@@ -35,14 +35,14 @@ const Blog = mongoose.model("Blog", blogSchema);
 const blogs = [];
 
 app.get("/", function (req, res) {
-  Blog.find(function(err,blogs){
-    if(!err){
+  Blog.find(function (err, blogs) {
+    if (!err) {
       res.render("home", {
         homeStartingContent: homeStartingContent,
         blogs: blogs,
       });
     }
-  })
+  });
 });
 
 app.get("/about", function (req, res) {
@@ -67,12 +67,13 @@ app.post("/compose", function (req, res) {
 });
 
 app.get("/blogs/:blog", function (req, res) {
-  var containsTilte = false;
-  blogs.forEach(function (element) {
-    if (_.lowerCase(element.title) === _.lowerCase(req.params.blog)) {
-      containsTilte = true;
-      res.render("post", { blogTitle: element.title, blogBody: element.body });
-    }
+  var blogId = req.params.blog;
+
+  Blog.findOne({ _id: blogId }, function (err, blog) {
+    res.render("post", {
+      blogTitle: blog.title,
+      blogBody: blog.body,
+    });
   });
 });
 
